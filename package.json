@@ -16,18 +16,17 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.20.1",
     "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
     "gulp-babel": "^8.0.0",
+    "gulp-better-rollup": "^4.0.1",
+    "gulp-connect": "^5.7.0",
     "prettier-eslint": "^9.0.1"
   },
   "browserslist": [
-    "chrome >= 37",
-    "Android >= 4",
+    "Android >= 4.4",
     "iOS >= 8",
-    "firefox >= 52",
-    "Firefox ESR",
-    "ie >= 11",
-    "not ie <= 8",
     "last 1 version",
+    "not ie <= 8",
     "not dead"
   ],
   "eslintConfig": {
@@ -37,12 +36,15 @@
       "commonjs": true
     },
     "parserOptions": {
-      "ecmaVersion": 2019
+      "ecmaVersion": 6
     },
     "parser": "babel-eslint",
     "extends": [
       "airbnb-base"
-    ]
+    ],
+    "globals": {
+      "$": true
+    }
   },
   "prettier": {
     "singleQuote": true,
@@ -55,7 +57,19 @@
         {
           "useBuiltIns": "usage",
           "corejs": 3,
-          "exclude": []
+          "exclude": [
+            "es.array.for-each",
+            "es.array.index-of",
+            "es.array.join",
+            "es.array.slice",
+            "es.number.constructor",
+            "es.number.is-nan",
+            "es.regexp.exec",
+            "es.string.replace",
+            "es.string.search",
+            "es.string.split",
+            "web.dom-collections.for-each"
+          ]
         }
       ]
     ]
