@@ -10,6 +10,7 @@ const rev = require('gulp-rev'); // 生成版本号
 const revCollector = require('gulp-rev-collector'); // 替换版本号
 const clean = require('gulp-clean'); // 清理目录
 const htmlmin = require('gulp-htmlmin'); // 压缩html
+const OS = require('os');
 
 /** 源码目录 */
 const scrPath = 'src/';
@@ -44,10 +45,22 @@ const TaskDevHTML = () => src(`${scrPath}*.html`, { allowEmpty: true })
 const TaskDevImg = () => src(`${scrPath}img/**`, { allowEmpty: true })
   .pipe(dest(`${devPath}img/`))
   .pipe(connect.reload());
+
+// 获取本机电脑IP
+function getIPAdress() {
+  const interfaces = OS.networkInterfaces();
+  const ifaces = Object.values(interfaces)
+    .flat()
+    .filter((v) => !v.internal);
+  const alias = ifaces[0] || { address: 'localhost' };
+  return alias.address;
+}
+
 /** 开发时的静态服务器 */
 const TaskDevServe = () => {
   connect.server({
     root: devPath,
+    host: getIPAdress(),
     livereload: true,
   });
 };

@@ -31,7 +31,9 @@
   "browserslist": [
     "Android >= 4.4",
     "iOS >= 8",
-    "last 1 version",
+    "ie >= 11",
+    "chrome >= 37",
+    "Firefox ESR",
     "not ie <= 8",
     "not dead"
   ],
