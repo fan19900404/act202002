@@ -4,8 +4,60 @@
   "description": "2020年2月活动",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "gulp dev"
   },
   "author": "ZF",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "prettier-eslint": "^9.0.1"
+  },
+  "browserslist": [
+    "chrome >= 37",
+    "Android >= 4",
+    "iOS >= 8",
+    "firefox >= 52",
+    "Firefox ESR",
+    "ie >= 11",
+    "not ie <= 8",
+    "last 1 version",
+    "not dead"
+  ],
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "commonjs": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2019
+    },
+    "parser": "babel-eslint",
+    "extends": [
+      "airbnb-base"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "printWidth": 120
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "useBuiltIns": "usage",
+          "corejs": 3,
+          "exclude": []
+        }
+      ]
+    ]
+  }
 }
