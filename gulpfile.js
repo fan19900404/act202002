@@ -3,7 +3,13 @@ const {
 } = require('gulp');
 const babel = require('gulp-babel');
 const autoprefixer = require('gulp-autoprefixer');
-const connect = require('gulp-connect');
+const connect = require('gulp-connect'); // 开发服务器
+const uglify = require('gulp-uglify'); // 混淆压缩js
+const minCss = require('gulp-clean-css'); // 压缩css
+const rev = require('gulp-rev'); // 生成版本号
+const revCollector = require('gulp-rev-collector'); // 替换版本号
+const clean = require('gulp-clean'); // 清理目录
+const htmlmin = require('gulp-htmlmin'); // 压缩html
 
 /** 源码目录 */
 const scrPath = 'src/';
@@ -56,6 +62,47 @@ const TaskDevWatch = () => {
 /**
  * 构建部分
  */
+const TaskBuildClean = () => src(buildPath, { allowEmpty: true }).pipe(clean());
+/** 复制lib内容到构建目录下 */
+const TaskBuildLib = () => src(`${scrPath}lib/*.*`, { allowEmpty: true }).pipe(
+  dest(`${buildPath}lib/`, { allowEmpty: true }),
+);
+/** 编译js，并且混淆压缩，复制到构建目录下 */
+const TaskBuildJS = () => src(`${scrPath}js/*.js`, { allowEmpty: true })
+  .pipe(babel())
+  .pipe(uglify())
+  .pipe(rev())
+  .pipe(dest(`${buildPath}js/`, { allowEmpty: true }))
+  .pipe(rev.manifest()) // - 生成一个rev-manifest.json
+  .pipe(dest(`${buildPath}js`));
+/** 替换js中的img为hash命名 */
+const revJsImg = () => src([`${buildPath}img/rev-manifest.json`, `${buildPath}js/*.js`])
+  .pipe(revCollector())
+  .pipe(dest(`${buildPath}js/`));
+/** css自动增加前缀混淆压缩后复制到构建目录 */
+const TaskBuildCSS = () => src(`${scrPath}css/*.css`, { allowEmpty: true })
+  .pipe(autoprefixer({ cascade: true }))
+  .pipe(minCss())
+  .pipe(rev())
+  .pipe(dest(`${buildPath}css/`))
+  .pipe(rev.manifest()) // - 生成一个rev-manifest.json
+  .pipe(dest(`${buildPath}css`));
+/** 替换css中的img为hash命名 */
+const revCssImg = () => src([`${buildPath}img/rev-manifest.json`, `${buildPath}css/*.css`])
+  .pipe(revCollector())
+  .pipe(dest(`${buildPath}css/`));
+/** img自动复制到开发目录 */
+const TaskBuildImg = () => src(`${scrPath}img/**`, { allowEmpty: true })
+  .pipe(rev())
+  .pipe(dest(`${buildPath}img/`))
+  .pipe(rev.manifest()) // - 生成一个rev-manifest.json
+  .pipe(dest(`${buildPath}img`));
+
+/** html自动复制到开发目录 */
+const TaskBuildHTML = () => src([`${buildPath}**/rev-manifest.json`, `${scrPath}*.html`], { allowEmpty: true })
+  .pipe(revCollector())
+  .pipe(htmlmin({ collapseWhitespace: true }))
+  .pipe(dest(buildPath));
 
 /** 开发任务 */
 const devTask = series(
@@ -63,7 +110,16 @@ const devTask = series(
   parallel(TaskDevWatch, TaskDevServe),
 );
 /** 构建任务 */
-const buildTask = () => null;
+const buildTask = series(
+  TaskBuildClean,
+  TaskBuildImg,
+  TaskBuildCSS,
+  revCssImg,
+  TaskBuildLib,
+  TaskBuildJS,
+  revJsImg,
+  TaskBuildHTML,
+);
 
 exports.default = buildTask;
 exports.dev = devTask;
