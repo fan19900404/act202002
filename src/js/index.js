@@ -116,7 +116,7 @@ $(() => {
         tplRank({
           data: data.rank.rank.map((v) => ({
             rank: v.rank,
-            pic: v.headimg === '--' ? '' : v.headimg,
+            pic: v.headimg === '--' ? '' : `//img.baoshixingqiu.com/${v.headimg}`,
             name: v.nickname,
             award: window.tm.bitSeperator(v.red_diamond || '--'),
           })),
