@@ -8,15 +8,204 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="renderer" content="webkit" />
-    <title>Document</title>
+    <title></title>
     <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+    <script src="./lib/es6-promise.auto.min.js"></script>
     <script src="./lib/zepto.min.js"></script>
     <script src="./lib/etpl.min.js"></script>
+    <!-- 使用svga的动画支持 -->
+    <script src="./lib/svga.lite.min.js"></script>
     <script src="//img.baoshixingqiu.com/h5jsbridge/h5jsbridge.js?v=20191230"></script>
+    <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+    <script>
+      new VConsole();
+    </script> -->
   </head>
+
   <body>
-    <img src="./img/7788.png" alt="" />
-    打开 全都是 啥
+    <div class="main">
+      <div class="bg"></div>
+      <canvas id="svga" class="svga" style="width:7.5rem;z-index:1;position: absolute"></canvas>
+      <div class="head">
+        <div class="btn-rule" id="J_btn_rule"></div>
+        <img class="head-title" src="./img/title.png" alt="" />
+        <div class="head-total">今日全星球玩家累计单期盈利总计</div>
+        <div class="head-total-num d-flex" id="J_total"></div>
+        <div class="head-award d-flex">
+          <div>新春奖池<span id="J_period"></span>期 5亿红钻 距结束</div>
+          <div class="head-award-time d-flex" id="J_time"></div>
+        </div>
+        <div class="head-user" id="J_user"></div>
+        <div class="head-progress" id="J_progress"></div>
+      </div>
+      <div class="body">
+        <div class="rank-title">
+          <div class="refresh" id="J_refresh"></div>
+          <div class="rank-title-tip d-flex">榜单数据1分钟刷新一次，每日零点更新新一期榜单</div>
+        </div>
+        <div class="rank-table" id="J_rank"></div>
+      </div>
+      <!-- 活动规则弹窗 -->
+      <div class="alert-rule alert" id="J_alert_rule">
+        <div class="alert-box">
+          <div class="alert-shadow"></div>
+          <div class="alert-main">
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">1</div>
+              <div>活动期间，每日瓜分五亿红钻奖池</div>
+            </div>
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">2</div>
+              <div>
+                活动期间，体验相关游戏（相关游戏包括星球28、搞怪劈劈乐、开心农场、狗狗go），统计所有玩家的每日累计单期盈利总和，根据每个玩家在其中的占比瓜分5亿红钻奖励<br />（<span>累计单期盈利=活动期间内单期盈亏大于0的单期盈利总和</span>，例：小明第一期星球28盈利100红钻，第二期亏损200红钻，第三期盈利300红钻，则累计单期盈利100+300=400红钻）
+              </div>
+            </div>
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">3</div>
+              <div>
+                瓜分奖池规则：<br />
+                每日奖池奖励=（玩家每日累计单期盈利÷当日结束时星球玩家总累计单期盈利）*5亿<br />
+                （例：小明今日累计单期盈利为10w红钻，当日结束后星球总累计单期盈利为100w，则当日小明的红钻奖励为：（10w÷100w）*5亿=5000w红钻
+              </div>
+              <img src="./img/alert_rule_1.png" style="width:5.06rem;margin-top:0.2rem" alt="" />
+            </div>
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">4</div>
+              <div>每日累计单期盈利达到1000w后可获得50w红钻奖励（每日刷新）</div>
+              <img src="./img/alert_rule_2.png" style="width:5.06rem;margin-top:0.2rem" alt="" />
+            </div>
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">5</div>
+              <div>
+                累计单期盈利每日0点0分停止上一期统计开始新一期统计，奖池奖励和任务奖励将于次日0点10分左右发放
+              </div>
+            </div>
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">6</div>
+              <div>活动时间 3月2日-3月21日</div>
+            </div>
+            <div class="alert-rule-li">
+              <div class="alert-rule-index d-flex">7</div>
+              <div>本活动最终解释权归宝石星球所有</div>
+            </div>
+            <div style="width: 1rem;height:1rem"></div>
+          </div>
+          <div class="alert-close"></div>
+        </div>
+      </div>
+      <!-- 弹窗 -->
+      <!-- <div class="alert-first alert">
+        <div class="alert-box">
+          <div class="alert-main"></div>
+          <div class="alert-close"></div>
+        </div>
+      </div> -->
+      <!-- 昨日战况弹窗 -->
+      <div class="alert-first alert" id="J_alert_first"></div>
+      <!-- 记录弹窗 -->
+      <div class="alert-log alert" id="J_alert_log"></div>
+    </div>
+    <script type="text/template" id="tplUser">
+      <div class="user-title d-flex">
+          <div>今日累计单期盈利红钻：</div>
+          <div><%= data.userTotol %></div>
+        </div>
+        <div class="user-tip">（占玩家总盈利<%= data.ratio %>%）</div>
+        <div class="btn-log" id="J_log"></div>
+        <% if(data.num){ %>
+        <div class="user-num d-flex"><%= data.num %></div>
+        <% } else {%>
+        <div class="user-none d-flex" id="gotored">当前没有可瓜分红钻，快去玩游戏赚红钻吧 &gt;</div>
+        <% } %>
+        <div class="user-carve d-flex">预计可瓜分奖池奖励（5亿*<%= data.ratio %>%）</div>
+    </script>
+    <script type="text/template" id="tplProgress">
+      <div class="progress-title d-flex">
+          <div>当前进度</div>
+          <div><%= data.ratio %>%</div>
+          <div class="progress-box">
+            <div class="progress-bar" style="width:<%= data.ratio %>%"></div>
+          </div>
+        </div>
+        <div class="progress-tip">今日累计单期盈利达到1000w后额外奖励50w红钻<br>(次日0:10发放)</div>
+        <% if(data.ready){ %>
+        <div class="progress-ready"></div>
+        <% } %>
+    </script>
+    <script type="text/template" id="tplRank">
+      <% data.forEach(function(item){%>
+      <div class="rank-li d-flex">
+        <div class="rank-bg"></div>
+        <div class="rank-index d-flex rank-index-<%= item.rank %>"><%= item.rank>3?item.rank:'' %></div>
+        <div class="rank-pic">
+          <% if(item.pic){ %>
+          <img src="<%= item.pic %>" alt="">
+          <% } %>
+        </div>
+        <div class="rank-name"><%= item.name %></div>
+        <div class="rank-red"><%= item.award %></div>
+      </div>
+      <% }) %>
+    </script>
+    <script type="text/template" id="tplAlertFirst">
+      <div class="alert-box">
+        <div class="alert-main">
+          <div class="alert-first-date d-flex">
+            <div><%= data.date %></div>
+            <div>新春奖池第<%= data.period %>期</div>
+          </div>
+          <div class="alert-first-li d-flex">
+            <div>全星球玩家累计单期盈利总计</div>
+            <div><%= data.all_red_diamond %></div>
+          </div>
+          <div class="alert-first-li d-flex">
+            <div>您在该期累计单期盈利总计</div>
+            <div><%= data.profit_diamond %></div>
+          </div>
+          <div class="alert-first-li d-flex">
+            <div>您的占比：<%= data.point %>%</div>
+          </div>
+          <div class="alert-first-li d-flex">
+            <div>您的该期奖池奖励</div>
+            <div><span><%= data.red_diamond %></span></div>
+          </div>
+          <% if(data.ready){ %>
+          <img class="alert-first-award" src="./img/alert_first_award.png" alt="">
+          <div class="alert-first-tip">由于您累计盈利超过了1000w红钻我们加赠<br>您<span>50W红钻</span>，新的一期再接再厉哦</div>
+          <% }else{ %>
+          <div class="alert-first-tip" style="margin:0.32rem 0 0.16rem">新的一期再接再厉<br>积极参与游戏盈利的红钻会变多哦</div>
+          <img class="alert-first-award" src="./img/alert_first_none.png" alt="">
+          <% } %>
+        </div>
+        <div class="alert-close"></div>
+      </div>
+    </script>
+    <script type="text/template" id="tplAlertLog">
+      <div class="alert-box">
+        <div class="alert-main">
+          <% if(data.length){ %>
+          <% data.forEach(function(item){ %>
+          <div class="alert-log-li">
+            <div class="alert-log-li-title">新春奖池第<%= item.period %>期</div>
+            <div class="alert-log-li-date"><%= item.date %></div>
+            <div>全星球玩家累计单期盈利：<%= item.all_red_diamond %></div>
+            <div>您的累计单期盈利：<%= item.profit_diamond %></div>
+            <div>您的占比：<%= item.point %>%</div>
+            <div>您的奖池奖励：<%= item.red_diamond %></div>
+            <% if(item.ready){%>
+            <div class="alert-log-li-50"></div>
+            <% } %>
+          </div>
+          <% }) %>
+          <% }else{ %>
+          <div class="alert-log-none">当前没有记录</div>
+          <% } %>
+        </div>
+        <div class="alert-close"></div>
+      </div>
+    </script>
     <script src="./js/common.js"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>

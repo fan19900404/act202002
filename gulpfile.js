@@ -49,9 +49,9 @@ const TaskDevImg = () => src(`${scrPath}img/**`, { allowEmpty: true })
 // 获取本机电脑IP
 function getIPAdress() {
   const interfaces = OS.networkInterfaces();
-  const ifaces = Object.values(interfaces)
-    .flat()
-    .filter((v) => !v.internal);
+  const ifaces = []
+    .concat(...Object.values(interfaces))
+    .filter((v) => !v.internal && v.family === 'IPv4');
   const alias = ifaces[0] || { address: 'localhost' };
   return alias.address;
 }
@@ -89,7 +89,7 @@ const TaskBuildJS = () => src(`${scrPath}js/*.js`, { allowEmpty: true })
   .pipe(rev.manifest()) // - 生成一个rev-manifest.json
   .pipe(dest(`${buildPath}js`));
 /** 替换js中的img为hash命名 */
-const revJsImg = () => src([`${buildPath}img/rev-manifest.json`, `${buildPath}js/*.js`])
+const revJsImg = () => src([`${buildPath}img/rev-manifest.json`, `${buildPath}js/*.js`], { allowEmpty: true })
   .pipe(revCollector())
   .pipe(dest(`${buildPath}js/`));
 /** css自动增加前缀混淆压缩后复制到构建目录 */
@@ -101,7 +101,7 @@ const TaskBuildCSS = () => src(`${scrPath}css/*.css`, { allowEmpty: true })
   .pipe(rev.manifest()) // - 生成一个rev-manifest.json
   .pipe(dest(`${buildPath}css`));
 /** 替换css中的img为hash命名 */
-const revCssImg = () => src([`${buildPath}img/rev-manifest.json`, `${buildPath}css/*.css`])
+const revCssImg = () => src([`${buildPath}img/rev-manifest.json`, `${buildPath}css/*.css`], { allowEmpty: true })
   .pipe(revCollector())
   .pipe(dest(`${buildPath}css/`));
 /** img自动复制到开发目录 */

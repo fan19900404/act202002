@@ -3,3 +3,4 @@ dev
 node_modules
 .vscode
 src/lib
+src/*.html
