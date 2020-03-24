@@ -1,0 +1,138 @@
+.title {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 7.5rem;
+  height: 1.68rem;
+  background: #2B3476;
+}
+
+.main {
+  box-sizing: border-box;
+  padding-top: 1.68rem;
+  position: relative;
+  height: 100%;
+  width: 7.5rem;
+  margin: auto;
+  overflow: auto;
+  overflow-x: hidden;
+  font-size: 0.24rem;
+  background: rgb(242, 243, 245);
+}
+
+.tabbar {
+  position: fixed;
+  top: 1.68rem;
+  left: 50%;
+  width: 7.5rem;
+  height: 0.9rem;
+  transform: translate(-50%, 0);
+  justify-content: space-around;
+  box-shadow: 0 -1px 0 0 #EAEAEA inset;
+  background: #fff;
+  font-size: 0.3rem;
+}
+
+.tabbar div {
+  color: #80829A;
+  height: 0.9rem;
+  width: 0.94rem;
+}
+
+.tabbar .active {
+  position: relative;
+  color: #FF4396;
+}
+
+.tabbar .active::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 0.04rem;
+  background: #FF4396;
+  bottom: 0;
+  left: 0;
+}
+
+.list {
+  padding-top: 0.9rem;
+}
+
+.li {
+  padding: 0 0.3rem;
+  margin-bottom: 0.2rem;
+  background: #fff;
+}
+
+.li-title {
+  justify-content: space-between;
+  height: 0.7rem;
+  font-size: 0.26rem;
+  color: #B6B7C7;
+  box-shadow: inset 0 -1px 0 0 #EAEAEA;
+}
+
+.li-title .active {
+  color: #FF4396;
+}
+
+.li-main {
+  justify-content: space-between;
+  height: 1.4rem;
+}
+
+.li-pic {
+  flex: 0 0 auto;
+  height: 0.84rem;
+  width: 0.84rem;
+  margin-right: 0.24rem;
+}
+
+.li-pic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.li-info {
+  flex: 1 1 auto;
+  font-size: 0.32rem;
+  line-height: 0.54rem;
+  color: #414156;
+}
+
+.li-info div+div {
+  font-size: 0.24rem;
+  color: #B6B7C7;
+  line-height: 0.32rem;
+}
+
+.li-btn {
+  width: 1.8rem;
+  height: 0.7rem;
+  font-size: 0.28rem;
+  color: #FFFFFF;
+  background: #FF4396;
+  border-radius: 0.06rem;
+  box-shadow: 0 -0.04rem 0 0 #D6327B inset;
+}
+
+.li-qq {
+  font-size: 0.26rem;
+  color: #80829A;
+  line-height: 0.36rem;
+  padding-bottom: 0.4rem;
+}
+
+/* 无记录 */
+.none {
+  display: none;
+  margin: 2rem auto;
+  min-width: 2rem;
+  padding-top: 2rem;
+  background: url("../img/bg_none.png") no-repeat center 0/2rem 2rem;
+  text-align: center;
+  font-size: .28rem;
+  color: #B6B7C7;
+}

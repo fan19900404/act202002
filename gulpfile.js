@@ -62,6 +62,7 @@ const TaskDevServe = () => {
     root: devPath,
     host: getIPAdress(),
     livereload: true,
+    port: 8000,
   });
 };
 /** 监听所有改变 */

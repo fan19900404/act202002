@@ -392,3 +392,25 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* toast公共样式 */
+.d-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 2.5rem;
+  min-height: 0.32rem;
+  text-align: center;
+  line-height: 0.32rem;
+  padding: 0.24rem;
+  color: #fff;
+  font-size: 0.24rem;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 299;
+}
+
+@font-face {
+  font-family: 'DINPro-CondBold';
+  src: url('../lib/DINPro-CondBoldItawoff.ttf');
+}

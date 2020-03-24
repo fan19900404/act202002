@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="zh-cmn-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="renderer" content="webkit"><title>兑换记录</title><link rel="stylesheet" href="./css/common-1e01ead82b.css"><link rel="stylesheet" href="./css/TmAlert-51b28635bb.css"><link rel="stylesheet" href="./css/log-f9f5ff5961.css"><script src="./lib/es6-promise.auto.min.js"></script><script src="./lib/zepto.min.js"></script><script src="./lib/etpl.min.js"></script><script src="./js/TmAlert-0f498f50e9.js"></script><script src="//img.baoshixingqiu.com/h5jsbridge/h5jsbridge.js?v=20191230"></script><!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+  <script>
+    new VConsole();
+
+  </script> --></head><body><div class="main"><div class="title"></div><div class="tabbar d-flex" id="J_tabbar"><div class="d-flex" data-type="0">全部</div><div class="d-flex" data-type="1">审核中</div><div class="d-flex" data-type="2">已发放</div></div><div class="list" id="J_list"></div><div class="none">暂无记录</div><script type="text/template" id="tplList"> <% data.forEach(function(item){ %> <div class="li">
+          <div class="li-title d-flex">
+            <div>订单号：<%= item.order %></div>
+            <div class="<%= +item.status<2?'active':''%>"><%= ['审核中','已发放','兑换失败，蓝钻已返还'][item.status]%></div>
+          </div>
+          <div class="li-main d-flex">
+            <div class="li-pic"><img src="<%= item.pic %>" alt=""></div>
+            <div class="li-info">
+              <div><%= item.name %></div>
+              <div><%= item.time %></div>
+            </div>
+            <!-- type 3:Q币 4：京东e卡 --> <% if(item.type==4&&item.status==1){ %> <div class="li-btn d-flex J_get" data-json='<%= JSON.stringify(item) %>'>提取卡密</div> <% } %> <% if(item.qq_num){ %> <div class="li-qq">QQ号：<%= item.qq_num %></div> <% } %> </div>
+        </div> <% }) %> </script></div><script src="./js/common-17d9bb1ffd.js"></script><script src="./js/log-5ef20a1553.js"></script></body></html>

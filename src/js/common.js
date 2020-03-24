@@ -55,7 +55,7 @@
   };
   /* 凭借ajax的url */
   window.tm.getAjaxUrl = function (url) {
-    const base = /^http/g.test(url) ? '' : 'http://act.baoshixingqiu.com';
+    const base = /^http/g.test(url) ? '' : '//interface.baoshixingqiu.com';
     const query = window.tm.getQuery();
     return base + url + (url.indexOf('?') > 0 ? '&' : '?') + $.param(query);
   };
@@ -98,6 +98,57 @@
     strNum[0] = strNum[0].replace(/\B(?=(\d{3})+$)/g, ','); // 格式化正数部分
 
     return strNum.join('.'); // 合并正数+小数
+  };
+
+  /** 弹窗处理 */
+  window.tm.toast = (text) => {
+    // 1、创建构造器，定义好提示信息的模板
+    const ToastTip = document.createElement('div');
+    ToastTip.innerHTML = `<div class="d-toast d-flex"><div class="d-toast-tip">${text}</div></div>`;
+
+    // 3、把创建的实例添加到body中
+    document.body.appendChild(ToastTip);
+    // 4.三秒后移除
+    setTimeout(() => {
+      document.body.removeChild(ToastTip);
+    }, 3000);
+  };
+
+  // input自带的select()方法在苹果端无法进行选择，所以需要自己去写一个类似的方法
+  // 选择文本。createTextRange(setSelectionRange)是input方法
+  const selectText = (textbox, startIndex, stopIndex) => {
+    textbox.setSelectionRange(startIndex, stopIndex);
+    textbox.focus();
+  };
+  /**
+   * 复制到剪切板的功能
+   * @param {string} content 需要复制的内容
+   * @param {() => null} success 成功后的回调
+   * @param {() => null} error 失败后的回调
+   */
+  window.tm.copy = (content = '', success = () => null, error = () => null) => {
+    // 不支持execCommand方法
+    if (!document.execCommand) {
+      error();
+      return;
+    }
+
+    const oInput = document.createElement('input');
+    oInput.value = content;
+    oInput.readOnly = true;
+    oInput.style.position = 'absolute';
+    oInput.style.left = '-1000px';
+    oInput.style.zIndex = '-1000';
+    document.body.appendChild(oInput);
+    oInput.select(); // 选择对象
+    selectText(oInput, 0, content.length);
+    const result = document.execCommand('copy', false); // 执行浏览器复制命令
+    document.body.removeChild(oInput);
+    if (result) {
+      success();
+    } else {
+      error();
+    }
   };
 }());
 

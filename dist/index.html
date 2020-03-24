@@ -1,35 +1,8 @@
-<!DOCTYPE html>
-<html lang="zh-cmn-Hans">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="renderer" content="webkit" />
-    <title>兑换商城</title>
-    <link rel="stylesheet" href="./css/common.css" />
-    <link rel="stylesheet" href="./css/TmAlert.css" />
-    <link rel="stylesheet" href="./css/index.css" />
-    <script src="./lib/es6-promise.auto.min.js"></script>
-    <script src="./lib/zepto.min.js"></script>
-    <script src="./lib/etpl.min.js"></script>
-    <script src="./lib/jsencrypt.min.js"></script>
-    <script src="./js/TmAlert.js"></script>
-    <script src="//img.baoshixingqiu.com/h5jsbridge/h5jsbridge.js?v=20191230"></script>
-    <!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
+<!DOCTYPE html><html lang="zh-cmn-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><meta name="renderer" content="webkit"><title>兑换商城</title><link rel="stylesheet" href="./css/common-1e01ead82b.css"><link rel="stylesheet" href="./css/TmAlert-51b28635bb.css"><link rel="stylesheet" href="./css/index-8da99204c3.css"><script src="./lib/es6-promise.auto.min.js"></script><script src="./lib/zepto.min.js"></script><script src="./lib/etpl.min.js"></script><script src="./lib/jsencrypt.min.js"></script><script src="./js/TmAlert-0f498f50e9.js"></script><script src="//img.baoshixingqiu.com/h5jsbridge/h5jsbridge.js?v=20191230"></script><!-- <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
   <script>
     new VConsole();
 
-  </script> -->
-  </head>
-
-  <body>
-    <div class="main">
-      <div class="btn-log d-flex" id="J_gotoLog">兑换记录</div>
-      <div class="head" id="J_user"></div>
-      <!-- <div class="tabbar d-flex" id="J_tabbar">
+  </script> --></head><body><div class="main"><div class="btn-log d-flex" id="J_gotoLog">兑换记录</div><div class="head" id="J_user"></div><!-- <div class="tabbar d-flex" id="J_tabbar">
         <div class="bar-btn d-flex">
           <div class="bar-q d-flex">兑换Q币</div>
           <div class="bar-age d-flex">年龄不限</div>
@@ -38,42 +11,22 @@
           <div class="bar-e d-flex">兑换京东E卡</div>
           <div class="bar-age d-flex">年龄不限</div>
         </div>
-      </div> -->
-      <!-- 暂时不显示e卡，同时加了高度 -->
-      <div style="margin-top:0.2rem;" class="tabcontent" id="J_tabcontent"></div>
-    </div>
-
-    <script type="text/template" id="tplUser">
-      <div class="d-flex">
+      </div> --><!-- 暂时不显示e卡，同时加了高度 --><div style="margin-top:0.2rem;" class="tabcontent" id="J_tabcontent"></div></div><script type="text/template" id="tplUser"><div class="d-flex">
         <div class="user-title">我的蓝钻</div>
       </div>
       <div class="user-blue"><%= data.blueDiamond %></div>
-      <div class="user-rmb">（约<%= data.rmb %>人民币）</div>
-    </script>
-
-    <script type="text/template" id="tplQ">
-      <div class="q-edit d-flex">
+      <div class="user-rmb">（约<%= data.rmb %>人民币）</div></script><script type="text/template" id="tplQ"><div class="q-edit d-flex">
         <div class="q-edit-title">充值QQ号</div>
         <input class="q-edit-input J_input-qq" type="tel" placeholder="请输入要充值的QQ号" value="<%= data.qq %>" maxlength="11">
       </div>
-      <div class="goods d-flex">
-        <% data.list.forEach(function(item){ %>
-        <div class="goods-li" data-json='<%= JSON.stringify(item) %>'>
+      <div class="goods d-flex"> <% data.list.forEach(function(item){ %> <div class="goods-li" data-json='<%= JSON.stringify(item) %>'>
           <div class="goods-title"><span><%= item.value %></span>Q币</div>
           <div class="goods-pic"><img src="<%= item.pic %>" alt=""></div>
           <div class="goods-blue d-flex">
             <div><%= Math.floor(item.blue/1e4)+'w' %></div>
           </div>
-        </div>
-        <% }) %>
-      </div>
-      <div class="goods-btnbox">
-        <% if(!data.phone){ %>
-        <div class="goods-btn-before">您还未绑定手机号，请先绑定手机号</div>
-        <% } %>
-        <div class="goods-btn d-flex <%= data.phone?'J_goods-ok':'J_goods-phone'%>">
-          <%= data.phone?'确认兑换':'去绑定手机号' %>
-        </div>
+        </div> <% }) %> </div>
+      <div class="goods-btnbox"> <% if(!data.phone){ %> <div class="goods-btn-before">您还未绑定手机号，请先绑定手机号</div> <% } %> <div class="goods-btn d-flex <%= data.phone?'J_goods-ok':'J_goods-phone'%>"> <%= data.phone?'确认兑换':'去绑定手机号' %> </div>
       </div>
       <div class="goods-tip">
         <div class="goods-tip-li">1. 兑换Q币时请仔细审查所要兑换到账的QQ帐号，如填写出错后果均由本人自己承担。</div>
@@ -81,29 +34,15 @@
         <div class="goods-tip-li">3. 蓝钻兑换Q币每日限兑换<span>2</span>次，无年龄限制。</div>
         <div class="goods-tip-li">4. 有疑问请咨询<span class="serve J_server">在线客服</span>。</div>
         <div class="goods-tip-li">5. 最终解释权归宝石星球官方所有。</div>
-      </div>
-    </script>
-
-    <script type="text/template" id="tplE">
-      <div class="goods d-flex">
-        <% data.list.forEach(function(item){ %>
-        <div class="goods-li" data-json='<%= JSON.stringify(item) %>'>
+      </div></script><script type="text/template" id="tplE"><div class="goods d-flex"> <% data.list.forEach(function(item){ %> <div class="goods-li" data-json='<%= JSON.stringify(item) %>'>
           <div class="goods-right"></div>
           <div class="goods-title">京东<span><%= item.value %></span>元E卡</div>
           <div class="goods-pic"><img src="<%= item.pic %>" alt=""></div>
           <div class="goods-blue d-flex">
             <div><%= Math.floor(item.blue/1e4)+'w' %></div>
           </div>
-        </div>
-        <% }) %>
-      </div>
-      <div class="goods-btnbox">
-        <% if(!data.phone){ %>
-        <div class="goods-btn-before">您还未绑定手机号，请先绑定手机号</div>
-        <% } %>
-        <div class="goods-btn d-flex <%= data.phone?'J_goods-ok':'J_goods-phone'%>">
-          <%= data.phone?'确认兑换':'去绑定手机号' %>
-        </div>
+        </div> <% }) %> </div>
+      <div class="goods-btnbox"> <% if(!data.phone){ %> <div class="goods-btn-before">您还未绑定手机号，请先绑定手机号</div> <% } %> <div class="goods-btn d-flex <%= data.phone?'J_goods-ok':'J_goods-phone'%>"> <%= data.phone?'确认兑换':'去绑定手机号' %> </div>
       </div>
       <div class="goods-e-tip">
         <div>京东E卡说明</div>
@@ -117,10 +56,4 @@
         <div class="goods-tip-li">2. 京东E卡每天限兑换<span>2</span>次，无年龄限制。</div>
         <div class="goods-tip-li">3. 有疑问请咨询<span class="serve J_server">在线客服</span>。</div>
         <div class="goods-tip-li">4. 最终解释权归宝石星球官方所有。</div>
-      </div>
-    </script>
-
-    <script src="./js/common.js"></script>
-    <script src="./js/index.js"></script>
-  </body>
-</html>
+      </div></script><script src="./js/common-17d9bb1ffd.js"></script><script src="./js/index-a03b0a5d98.js"></script></body></html>
